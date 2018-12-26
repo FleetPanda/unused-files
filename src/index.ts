@@ -11,7 +11,6 @@ const entry = path.join(process.cwd(), 'src/App.js')
 process.stdout.write(chalk.white.bold('Computing list of files...'))
 
 const allFiles = new Set<string>()
-// TODO: Normalize to full path.
 fs.walkDirSync(path.join(process.cwd(), 'src'), f => {
     if (f.indexOf(".test.js") === -1) {
         allFiles.add(f)
@@ -39,7 +38,9 @@ console.log(chalk.white.bold('Unused files:'))
 let diffSize = 0
 allFiles.forEach(file => {
     if (!dependencies.has(file)) {
-        console.log('\t', chalk.cyan(file))
+        // TODO: Absolute paths via flags
+        const printFile = process.env.ABSOLUTE_PATHS === 'true' ? file : path.relative(process.cwd(), file)
+        console.log('\t', chalk.cyan(printFile))
         diffSize++
     }
 })
