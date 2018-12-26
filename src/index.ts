@@ -5,14 +5,14 @@ import * as fs from './fs'
 import * as imports from './imports'
 
 // Entry point to start searching for dependencies.
-const entry = path.join(__dirname, 'src/App.js')
+const entry = path.join(process.cwd(), 'src/App.js')
 
 // Populate all files.
 process.stdout.write(chalk.white.bold('Computing list of files...'))
 
 const allFiles = new Set<string>()
 // TODO: Normalize to full path.
-fs.walkDirSync(__dirname, f => {
+fs.walkDirSync(process.cwd(), f => {
     if (f.indexOf(".test.js") === -1) {
         allFiles.add(f)
     }
@@ -26,7 +26,7 @@ process.stdout.write(chalk.white.bold('Computing dependency graph...'))
 // Check if entry point is valid
 if (!imports.isEntryPointValid(entry)) {
     process.stdout.write(chalk.red('ERROR.\n'))
-    console.error(chalk.red(`\nEntry point is not valid.`), 'Are you in the right directory?')
+    console.error(chalk.red(`\nEntry point ${entry} is not valid.`), 'Are you in the right directory?')
     process.exit(1)
 }
 

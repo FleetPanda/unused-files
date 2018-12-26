@@ -11,9 +11,7 @@
     "test": "jest",
     "postinstall": "tsc"
   },
-  "bin": {
-    "unused-imports": "./build/index.js"
-  },
+  "bin": "./build/index.js",
   "devDependencies": {
     "jest": "^23.6.0",
     "ts-jest": "^23.10.5",
