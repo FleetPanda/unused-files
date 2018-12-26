@@ -1,17 +1,18 @@
+import path from 'path'
 import chalk from 'chalk'
 
 import * as fs from './fs'
 import * as imports from './imports'
 
 // Entry point to start searching for dependencies.
-const entry = 'src/App.js'
+const entry = path.join(__dirname, 'src/App.js')
 
 // Populate all files.
 console.log(chalk.white.bold('Computing list of files..\n'))
 
 const allFiles = new Set<string>()
 // TODO: Normalize to full path.
-fs.walkDirSync(process.argv[3], f => {
+fs.walkDirSync(__dirname, f => {
     if (f.indexOf(".test.js") === -1) {
         allFiles.add(f)
     }
@@ -20,7 +21,13 @@ fs.walkDirSync(process.argv[3], f => {
 // Find all dependencies
 console.log(chalk.white.bold('Computing dependency graph...\n'))
 
-const dependencies = imports.walkImportsFromFile(process.argv[2])
+// Check if entry point is valid
+if (!imports.isEntryPointValid(entry)) {
+    console.error(chalk.red(`Entry point is not valid.`), 'Are you in the right directory?')
+    process.exit(1)
+}
+
+const dependencies = imports.walkImportsFromFile(entry)
 
 console.log(chalk.white.bold('Unused files:'))
 // Diff the two

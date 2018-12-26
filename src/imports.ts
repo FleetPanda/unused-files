@@ -6,6 +6,15 @@ type Import = string;
 const imports = new Set<Import>()
 
 /**
+ * Check if the entry point is valid.
+ * 
+ * @param entry 
+ */
+export function isEntryPointValid(entry: string): boolean {
+    return fs.existsSync(entry)
+}
+
+/**
  * Lazily find imports in a file.
  * 
  * @param file
