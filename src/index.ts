@@ -44,4 +44,4 @@ allFiles.forEach(file => {
     }
 })
 
-console.log(chalk.white('Total unused files: '), chalk.green(diffSize.toString()))
+console.log(chalk.white.bold('Total unused files: '), chalk.green(diffSize.toString()))
