@@ -8,7 +8,7 @@ import * as imports from './imports'
 const entry = path.join(__dirname, 'src/App.js')
 
 // Populate all files.
-console.log(chalk.white.bold('Computing list of files..\n'))
+process.stdout.write(chalk.white.bold('Computing list of files...'))
 
 const allFiles = new Set<string>()
 // TODO: Normalize to full path.
@@ -18,14 +18,19 @@ fs.walkDirSync(__dirname, f => {
     }
 })
 
+process.stdout.write(chalk.green('DONE.\n'))
+
 // Find all dependencies
-console.log(chalk.white.bold('Computing dependency graph...\n'))
+process.stdout.write(chalk.white.bold('Computing dependency graph...'))
 
 // Check if entry point is valid
 if (!imports.isEntryPointValid(entry)) {
-    console.error(chalk.red(`Entry point is not valid.`), 'Are you in the right directory?')
+    process.stdout.write(chalk.red('ERROR.\n'))
+    console.error(chalk.red(`\nEntry point is not valid.`), 'Are you in the right directory?')
     process.exit(1)
 }
+
+process.stdout.write(chalk.green('DONE.\n'))
 
 const dependencies = imports.walkImportsFromFile(entry)
 
