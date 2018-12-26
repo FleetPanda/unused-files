@@ -12,7 +12,7 @@ process.stdout.write(chalk.white.bold('Computing list of files...'))
 
 const allFiles = new Set<string>()
 // TODO: Normalize to full path.
-fs.walkDirSync(process.cwd(), f => {
+fs.walkDirSync(path.join(process.cwd(), 'src'), f => {
     if (f.indexOf(".test.js") === -1) {
         allFiles.add(f)
     }
