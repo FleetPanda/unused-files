@@ -65,7 +65,7 @@ function findImportsFromFile(file: Import): Set<Import> {
  * 
  * @param fpath  - filepath to resolve the files for.
  */
-function resolveToFiles(fpath: string): Set<string> {
+export function resolveToFiles(fpath: string): Set<string> {
     const possibleFiles = [
         `${fpath}.js`,
         `${fpath}.android.js`,

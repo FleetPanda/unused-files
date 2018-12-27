@@ -1,0 +1,46 @@
+import * as fs from 'fs'
+import rimraf from 'rimraf'
+import * as path from 'path'
+
+/**
+ * A helper to create a dir with all the filenames.
+ * 
+ * @param dir 
+ * @param files 
+ */
+export const mkdirWithFiles = (dir: string, files: string[]) => {
+    const dirPath = path.join(process.cwd(), dir)
+    fs.mkdirSync(dirPath)
+    files.forEach(f => {
+        touch(path.join(dirPath, f))
+    })
+}
+
+/**
+ * A helper to create any number of files with dummy content.
+ * 
+ * @param file 
+ */
+export const touch = (...files: string[]) => {
+    files.forEach(f => {
+        fs.writeFileSync(f, 'test')
+    })
+}
+
+/**
+ * A helper to remove a single file.
+ * 
+ * @param file 
+ */
+export const rm = (...files: string[]) => {
+    files.forEach(fs.unlinkSync)
+}
+
+/**
+ * A helper to delete a directory.
+ * 
+ * @param dir 
+ */
+export const rmdir = (dir: string) => {
+    rimraf.sync(path.join(process.cwd(), dir))
+}
