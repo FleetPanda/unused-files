@@ -13,7 +13,9 @@
   },
   "bin": "./build/index.js",
   "devDependencies": {
+    "@types/rimraf": "^2.0.2",
     "jest": "^23.6.0",
+    "rimraf": "^2.6.2",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1"
   },
