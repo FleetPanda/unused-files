@@ -1,9 +1,16 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-type Import = string;
+type Import = string
 
 const imports = new Set<Import>()
+
+/**
+ * Clear the import set. Useful for tests only.
+ */
+export function __clear() {
+    imports.clear()
+}
 
 /**
  * Check if the entry point is valid.
@@ -15,12 +22,14 @@ export function isEntryPointValid(entry: string): boolean {
 }
 
 /**
- * Lazily find imports in a file.
+ * Find imports in a file.
  * 
  * @param file
  */
 export function walkImportsFromFile(file: string): Set<Import> {
     if (imports.has(file)) {
+        console.log('Already Have file: ', file)
+
         return imports
     }
     imports.add(file)
@@ -35,21 +44,21 @@ export function walkImportsFromFile(file: string): Set<Import> {
 /**
  * Find list of imports of a file.
  * 
+ * Exported for tests.
+ * 
  * @param file 
  */
-function findImportsFromFile(file: Import): Set<Import> {
+export function findImportsFromFile(file: Import): Set<Import> {
     const dirname = path.dirname(file)
     const contents = fs.readFileSync(file)
-    const importRe = /^import (\*\sas\s\w*|\w*|\{\s\w*\s\}) from \'(\..*)\'$/
+    const importRe = /^import\s(\*\sas\s\w*|\w*|\{\s.*\s\})\sfrom\s\'(\..*)\'$/
     const imports = new Set<Import>()
 
     contents.toString().split('\n').forEach(line => {
         const matches = line.match(importRe)
         if (matches) {
             const normalizedPath = path.normalize(`${dirname}/${matches[2]}`)
-            resolveToFiles(normalizedPath).forEach(f => {
-                imports.add(f)
-            })
+            resolveToFiles(normalizedPath).forEach(f => imports.add(f))
         }
     })
 
@@ -62,6 +71,8 @@ function findImportsFromFile(file: Import): Set<Import> {
  *  /path/to/dir => /path/to/dir/index.js
  *  /path/to/dir => /path/to/dir/index.android.js
  *  /path/to/dir => /path/to/dir/index.ios.js
+ * 
+ * Exported for tests.
  * 
  * @param fpath  - filepath to resolve the files for.
  */
@@ -76,7 +87,7 @@ export function resolveToFiles(fpath: string): Set<string> {
     ]
 
     const results = new Set<string>()
-    possibleFiles.filter(f => {
+    possibleFiles.forEach(f => {
         if (fs.existsSync(f)) {
             results.add(f)
         }

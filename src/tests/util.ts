@@ -19,7 +19,7 @@ export const mkdirWithFiles = (dir: string, files: string[]) => {
 /**
  * A helper to create any number of files with dummy content.
  * 
- * @param file 
+ * @param files
  */
 export const touch = (...files: string[]) => {
     files.forEach(f => {
@@ -28,9 +28,19 @@ export const touch = (...files: string[]) => {
 }
 
 /**
- * A helper to remove a single file.
+ * A helper to create a single file with predefined content.
  * 
  * @param file 
+ * @param content 
+ */
+export const touchWithContent = (file: string, content: string) => {
+    fs.writeFileSync(file, content)
+}
+
+/**
+ * A helper to remove a single file.
+ * 
+ * @param files
  */
 export const rm = (...files: string[]) => {
     files.forEach(fs.unlinkSync)
