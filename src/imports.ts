@@ -40,13 +40,14 @@ export function walkImportsFromFile(file: string): Set<Import> {
 function findImportsFromFile(file: Import): Set<Import> {
     const dirname = path.dirname(file)
     const contents = fs.readFileSync(file)
-    const importRe = /^import (\*\sas\s\w*|\w*|\{\s\w*\s\}) from \'(\..*)\'$/
+    const importRe = /^import\s(\*\sas\s\w*|\w*|\{\s.*\s\})\sfrom\s\'(\..*)\'$/
     const imports = new Set<Import>()
 
     contents.toString().split('\n').forEach(line => {
         const matches = line.match(importRe)
         if (matches) {
             const normalizedPath = path.normalize(`${dirname}/${matches[2]}`)
+
             resolveToFiles(normalizedPath).forEach(f => {
                 imports.add(f)
             })
