@@ -28,8 +28,6 @@ export function isEntryPointValid(entry: string): boolean {
  */
 export function walkImportsFromFile(file: string): Set<Import> {
     if (imports.has(file)) {
-        console.log('Already Have file: ', file)
-
         return imports
     }
     imports.add(file)
