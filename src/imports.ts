@@ -51,7 +51,7 @@ export function walkImportsFromFile(file: string): Set<Import> {
 export function findImportsFromFile(file: Import): Set<Import> {
     const dirname = path.dirname(file)
     const contents = fs.readFileSync(file)
-    const importRe = /^import\s(\*\sas\s\w*|\w*|\{\s.*\s\})\sfrom\s\'(\..*)\'$/
+    const importRe = /^import\s(.*)\sfrom\s\'(\..*)\'$/
     const imports = new Set<Import>()
 
     contents.toString().split('\n').forEach(line => {
