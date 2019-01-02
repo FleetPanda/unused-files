@@ -1,4 +1,4 @@
-# unused-files
+# unused-files &middot; [![Build Status](https://travis-ci.com/FleetPanda/unused-files.svg?token=r9ZKJZspyajhDz5EguyH&branch=master)](https://travis-ci.com/FleetPanda/unused-files)
 
 > A simple script to calculate unused files on a JavaScript codebase based on their module resolution paths.
 
